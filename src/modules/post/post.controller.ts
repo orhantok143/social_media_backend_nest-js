@@ -1,3 +1,4 @@
+import { UserService } from './../user/user.service';
 import {
   Body,
   Controller,
@@ -17,7 +18,10 @@ import { CreatePostDto } from './dto/create.post.dto';
 
 @Controller('post')
 export class PostController {
-  constructor(private readonly postservice: PostService) {}
+  constructor(
+    private readonly postservice: PostService,
+    private readonly userService: UserService,
+  ) {}
 
   @UseGuards(JwtAuthGuard)
   @Post()
@@ -26,7 +30,8 @@ export class PostController {
     @Request() req,
   ): Promise<PostEntity> {
     try {
-      post.user = req.user.userId;
+      const user = await this.userService.findOne(req.user.userId);
+      post.user = user;
       return await this.postservice.create(post);
     } catch (error) {
       throw new InternalServerErrorException('Failed to create post');

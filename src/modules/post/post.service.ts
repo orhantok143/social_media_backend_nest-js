@@ -12,7 +12,6 @@ export class PostService {
 
   async create(post: PostEntity): Promise<PostEntity> {
     try {
-      console.log(post);
       return await this.postRepository.save(post);
     } catch (error) {
       throw new ConflictException('Post could not be created');
