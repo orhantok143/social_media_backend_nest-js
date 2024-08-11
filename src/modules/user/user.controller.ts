@@ -8,10 +8,12 @@ import {
   Patch,
   NotFoundException,
   InternalServerErrorException,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/user.dto';
+import { JwtAuthGuard } from '../auth/auth.guard';
 
 @Controller('user')
 export class UserController {
@@ -26,6 +28,7 @@ export class UserController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   async findAll() {
     try {
@@ -35,6 +38,7 @@ export class UserController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   async findOne(@Param('id') id: number) {
     try {
@@ -48,6 +52,7 @@ export class UserController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
   async update(
     @Param('id') id: number,
@@ -65,14 +70,15 @@ export class UserController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async remove(@Param('id') id: number): Promise<User> {
     try {
-      const user = await this.userService.remove(id);
+      const user = await this.findOne(id);
       if (!user) {
         throw new NotFoundException('User not found');
       }
-      return user;
+      return await this.userService.remove(id);
     } catch (error) {
       throw new InternalServerErrorException('Failed to delete user');
     }

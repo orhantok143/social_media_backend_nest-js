@@ -19,6 +19,8 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsString()
   password: string;
+
+  posts: [];
 }
 
 export class LoginUserDto {

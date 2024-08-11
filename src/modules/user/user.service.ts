@@ -52,6 +52,20 @@ export class UserService {
     }
   }
 
+  async findOneByUsername(username: string): Promise<User | null> {
+    try {
+      // Kullanıcıyı ID ile bul
+      const user = await this.userRepository.findOneBy({ username });
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
+      return user;
+    } catch (error) {
+      // Hata durumunda özel bir hata mesajı ile yanıt ver
+      throw new NotFoundException('User not found');
+    }
+  }
+
   async update(id: number, updateUser: Partial<User>): Promise<void> {
     try {
       const user = await this.findOne(id);
@@ -69,6 +83,7 @@ export class UserService {
   async remove(id: number): Promise<User | null> {
     try {
       const user = await this.findOne(id);
+      console.log(user);
       if (!user) {
         throw new NotFoundException('User not found');
       }
