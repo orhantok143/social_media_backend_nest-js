@@ -6,6 +6,8 @@ import { PostModule } from './modules/post/post.module';
 import { PostEntity } from './modules/post/entities/post.entity';
 import { AuthModule } from './modules/auth/auth.module';
 import { jwtConstants } from './modules/auth/jwt-strategy/constant';
+import { CommentModule } from './modules/comment/comment.module';
+import { Comment } from './modules/comment/entity/comment.entity';
 
 @Module({
   imports: [
@@ -18,11 +20,12 @@ import { jwtConstants } from './modules/auth/jwt-strategy/constant';
       database: jwtConstants.database,
       synchronize: true,
       logging: true,
-      entities: [User, PostEntity], // Burada entity'nizi ekleyin
+      entities: [User, PostEntity, Comment], // Burada entity'nizi ekleyin
     }),
     UserModule,
     PostModule,
     AuthModule,
+    CommentModule,
   ],
 })
 export class AppModule {}

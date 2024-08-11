@@ -83,7 +83,6 @@ export class UserService {
   async remove(id: number): Promise<User | null> {
     try {
       const user = await this.findOne(id);
-      console.log(user);
       if (!user) {
         throw new NotFoundException('User not found');
       }

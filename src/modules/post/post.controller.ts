@@ -14,7 +14,6 @@ import {
 import { PostService } from './post.service';
 import { PostEntity } from './entities/post.entity';
 import { JwtAuthGuard } from '../auth/auth.guard';
-import { CreatePostDto } from './dto/create.post.dto';
 
 @Controller('post')
 export class PostController {
@@ -26,7 +25,7 @@ export class PostController {
   @UseGuards(JwtAuthGuard)
   @Post()
   async createPost(
-    @Body() post: CreatePostDto,
+    @Body() post: PostEntity,
     @Request() req,
   ): Promise<PostEntity> {
     try {
@@ -59,13 +58,15 @@ export class PostController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Patch('id')
+  @Patch(':id')
   async update(
     @Param('id') id: number,
     @Body() post: PostEntity,
   ): Promise<PostEntity> {
     try {
-      return await this.postservice.update(id, post);
+      await this.postservice.update(id, post);
+      const updatedpost = await this.postservice.findOne(id);
+      return updatedpost;
     } catch (error) {
       throw new InternalServerErrorException('Failed to update post');
     }

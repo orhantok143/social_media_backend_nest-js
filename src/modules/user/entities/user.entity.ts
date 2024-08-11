@@ -1,4 +1,5 @@
 // user.entity.ts
+import { Comment } from 'src/modules/comment/entity/comment.entity';
 import { PostEntity } from 'src/modules/post/entities/post.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
@@ -24,4 +25,10 @@ export class User {
     onDelete: 'CASCADE',
   })
   posts: PostEntity[];
+
+  @OneToMany(() => Comment, (comment) => comment.user, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
+  comments: Comment[];
 }

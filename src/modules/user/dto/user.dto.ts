@@ -21,6 +21,7 @@ export class CreateUserDto {
   password: string;
 
   posts: [];
+  comments: [];
 }
 
 export class LoginUserDto {
