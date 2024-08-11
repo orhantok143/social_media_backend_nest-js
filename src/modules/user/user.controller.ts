@@ -11,15 +11,15 @@ import {
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './entities/user.entity';
+import { CreateUserDto } from './dto/user.dto';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  async create(@Body() createUserDto: User) {
+  async create(@Body() createUserDto: CreateUserDto) {
     try {
-      console.log(createUserDto);
       return await this.userService.create(createUserDto);
     } catch (error) {
       throw new InternalServerErrorException('Failed to create user');
