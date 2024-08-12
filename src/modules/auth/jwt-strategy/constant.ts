@@ -1,6 +1,6 @@
 export const jwtConstants = {
   secret: 'ineffable', // Bu anahtarı güçlü bir şeyle değiştirmelisin.
-  host: 'localhost',
+  host: 'nestjs-db',
   port: 3306,
   username: 'root',
   password: '1234',

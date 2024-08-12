@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  nestjs-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - nestjs-db
+    environment:
+      - DATABASE_HOST=nestjs-db
+      - DATABASE_PORT=3306
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=1234
+      - DATABASE_NAME=nestjs
+
+  nestjs-db:
+    image: mysql:8.0
+    container_name: nestjs-db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: nestjs
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
